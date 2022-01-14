@@ -2,21 +2,21 @@ const express = require("express");
 require("dotenv").config();
 
 const app = express();
-const port =3001;
+const port = 8080;
 const fs = require("fs");
+var morgan = require('morgan')
 
 //creating a folder to store files
 if (!fs.existsSync("CreatedFiles")) fs.mkdirSync("CreatedFiles");
-
+morgan('tiny')
 // Create File
 app.get("/createFile", (req, res, next) => {
   var date = new Date();
   var fileName = `${date.toISOString()}.txt`;
   fileName = fileName.slice(0, 19).replace(/:/g, "-");
 
-  var data = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${
-    date.getHours() >= 12 ? "PM" : "AM"
-  }`;
+  var data = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getHours() >= 12 ? "PM" : "AM"
+    }`;
 
   fs.writeFileSync(`./CreatedFiles/${fileName}.txt`, data, (err) => {
     if (err) console.log(err);
